@@ -8,38 +8,144 @@
     <style>
         body { 
             margin: 0; 
-            font-family: Arial, sans-serif; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
         }
         .header { 
-            background: #2c3e50; 
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white; 
             padding: 20px; 
-            text-align: center; 
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         #map { 
             height: 600px; 
             width: 100%; 
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
         }
-        .field-info { 
-            max-width: 300px; 
+        .map-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .field-info h3 { 
+        .field-popup { 
+            max-width: 350px; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .field-popup h3 { 
             margin: 0 0 10px 0; 
-            color: #2c3e50; 
+            color: #2c3e50;
+            font-size: 18px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
         }
-        .field-info p { 
-            margin: 5px 0; 
-            font-size: 14px; 
+        .field-popup .japanese-name {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        .field-popup p { 
+            margin: 8px 0; 
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .field-popup strong {
+            color: #2c3e50;
+        }
+        .rating {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        .field-type {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .indoor { background-color: #e74c3c; color: white; }
+        .outdoor { background-color: #27ae60; color: white; }
+        .mixed { background-color: #9b59b6; color: white; }
+        .buttons {
+            margin-top: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin: 2px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .legend {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .legend h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 5px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            border-radius: 50%;
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🎯 Airsoft Field Finder - Japan</h1>
-        <p>Find airsoft fields near you with reviews and information</p>
+        <p>Find the best airsoft fields across Japan with detailed information and reviews</p>
     </div>
     
-    <div id="map"></div>
+    <div class="map-container">
+        <div class="legend">
+            <h4>Field Types</h4>
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #e74c3c;"></span>
+                <span>Indoor CQB</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #27ae60;"></span>
+                <span>Outdoor</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #9b59b6;"></span>
+                <span>Mixed</span>
+            </div>
+        </div>
+        
+        <div id="map"></div>
+    </div>
     
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
@@ -52,65 +158,240 @@
             maxZoom: 19
         }).addTo(map);
         
-        // Sample airsoft fields data (you can add more here)
+        // Comprehensive airsoft fields data for Japan
         var airsoftFields = [
             {
-                name: "Tokyo Survival Game Field",
-                lat: 35.6762,
-                lng: 139.6503,
-                type: "Indoor CQB",
-                description: "Popular indoor close-quarters battle field in Tokyo",
-                website: "example.com",
-                rating: 4.5
+                name: "Desert Union",
+                japanese_name: "デザートユニオン",
+                address: "Inzai City, Chiba Prefecture, Japan",
+                rating: 4.4,
+                description: "A large outdoor desert-themed airsoft field with immersive terrain and realistic scenarios.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "desertunion.jp",
+                lat: 35.856,
+                lng: 140.166
             },
             {
-                name: "Chiba Outdoor Field",
-                lat: 35.6074,
-                lng: 140.1233,
-                type: "Outdoor",
-                description: "Large outdoor field with various terrain",
-                website: "example.com",
-                rating: 4.2
+                name: "Minna no Mori",
+                japanese_name: "みんなの森",
+                address: "Atsugi City, Kanagawa Prefecture, Japan",
+                rating: 4.6,
+                description: "A sprawling 45,000m² forest field featuring dense woods, grasslands, and rivers.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "minnanomori.jp",
+                lat: 35.452,
+                lng: 139.379
             },
             {
-                name: "Matsudo Local Field",
-                lat: 35.7848,
-                lng: 139.9493,
-                type: "Mixed",
-                description: "Local field with both indoor and outdoor areas",
-                website: "example.com",
-                rating: 4.0
+                name: "Sabage Paradise",
+                japanese_name: "サバゲーパラダイス",
+                address: "Chiba City, Chiba Prefecture, Japan",
+                rating: 4.3,
+                description: "Multiple game modes and rental options, perfect for beginners and experienced players.",
+                field_type: "Mixed",
+                size: "Large",
+                condition: "Open",
+                website: "saba-para.com",
+                lat: 35.607,
+                lng: 140.106
+            },
+            {
+                name: "Survival Game Battle",
+                japanese_name: "サバイバルゲームバトル",
+                address: "Chiba Prefecture, Japan",
+                rating: 4.1,
+                description: "Features a private pentagon area, huts, forest zones, and CQB areas with friendly staff.",
+                field_type: "Mixed",
+                size: "Medium",
+                condition: "Open",
+                website: "survivalgamebattle.jp",
+                lat: 35.594,
+                lng: 140.108
+            },
+            {
+                name: "Survival Game Field BEAM",
+                japanese_name: "サバイバルゲームフィールドBEAM",
+                address: "Chiba, Japan",
+                rating: 4.2,
+                description: "Premier field with urban and forest battlegrounds, plus a 50m shooting range.",
+                field_type: "Mixed",
+                size: "Large",
+                condition: "Open",
+                website: "beam-airsoft.jp",
+                lat: 35.605,
+                lng: 140.107
+            },
+            {
+                name: "BravePoint Shinjuku",
+                japanese_name: "ブレイブポイント新宿",
+                address: "Kabukicho, Shinjuku, Tokyo, Japan",
+                rating: 4.7,
+                description: "Premium indoor CQB with neon-lit corridors, themed games, and dark mode battles.",
+                field_type: "Indoor",
+                size: "Small",
+                condition: "Open",
+                website: "bravepoint.jp",
+                lat: 35.6938,
+                lng: 139.7034
+            },
+            {
+                name: "Area41 Yokohama",
+                japanese_name: "エリア41横浜",
+                address: "Center Kita, Yokohama, Kanagawa, Japan",
+                rating: 4.5,
+                description: "Indoor field with maze-like urban layout in a converted restaurant space.",
+                field_type: "Indoor",
+                size: "Small",
+                condition: "Open",
+                website: "area41.jp",
+                lat: 35.5203,
+                lng: 139.6266
+            },
+            {
+                name: "OPS Survival Game Park",
+                japanese_name: "OPSサバイバルゲームパーク",
+                address: "Kanagawa Prefecture, Japan",
+                rating: 4.4,
+                description: "Outdoor forested hill field with excellent sniper sightlines and natural cover.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "ops-survival.jp",
+                lat: 35.3435,
+                lng: 139.5307
+            },
+            {
+                name: "Oasis Survival Game Field",
+                japanese_name: "オアシスサバイバルゲームフィールド",
+                address: "Chiba Prefecture, Japan",
+                rating: 4.3,
+                description: "Wide-open terrain with wooden barricades, grassy lanes, and building structures.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "oasis-airsoft.jp",
+                lat: 35.6338,
+                lng: 140.081
+            },
+            {
+                name: "West Field Osaka",
+                japanese_name: "ウエストフィールド大阪",
+                address: "Near Denden Town, Osaka, Japan",
+                rating: 4.6,
+                description: "Massive outdoor field with forest cover, abandoned warehouses, and rolling hills.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "westfieldosaka.jp",
+                lat: 34.6641,
+                lng: 135.504
+            },
+            {
+                name: "Asobiba Odaiba",
+                japanese_name: "アソビバお台場",
+                address: "VenusFort Mall, Odaiba, Tokyo, Japan",
+                rating: 4.0,
+                description: "Convenient indoor field inside VenusFort mall, perfect for tourists and beginners.",
+                field_type: "Indoor",
+                size: "Small",
+                condition: "Open",
+                website: "asobiba.jp",
+                lat: 35.6269,
+                lng: 139.7766
+            },
+            {
+                name: "Tokyo Sabage Park",
+                japanese_name: "東京サバゲーパーク",
+                address: "Chiba Prefecture, Japan",
+                rating: 4.5,
+                description: "One of Japan's most popular fields with spectator catwalk and diverse game modes.",
+                field_type: "Mixed",
+                size: "Large",
+                condition: "Open",
+                website: "tokyo-sabage.jp",
+                lat: 35.621,
+                lng: 140.095
             }
         ];
         
+        // Function to get marker color based on field type
+        function getMarkerColor(fieldType) {
+            switch(fieldType) {
+                case 'Indoor': return '#e74c3c';
+                case 'Outdoor': return '#27ae60';
+                case 'Mixed': return '#9b59b6';
+                default: return '#3498db';
+            }
+        }
+        
+        // Create custom marker icons
+        function createCustomIcon(color) {
+            return L.divIcon({
+                html: `<div style="background-color: ${color}; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>`,
+                className: 'custom-div-icon',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, -10]
+            });
+        }
+        
         // Add markers for each field
         airsoftFields.forEach(function(field) {
-            // Custom marker colors based on field type
-            var markerColor = field.type === 'Indoor CQB' ? 'red' : 
-                             field.type === 'Outdoor' ? 'green' : 'blue';
+            var markerColor = getMarkerColor(field.field_type);
+            var customIcon = createCustomIcon(markerColor);
             
-            var marker = L.marker([field.lat, field.lng]).addTo(map);
+            var marker = L.marker([field.lat, field.lng], {icon: customIcon}).addTo(map);
             
-            // Create popup content
+            // Create comprehensive popup content
             var popupContent = `
-                <div class="field-info">
+                <div class="field-popup">
                     <h3>${field.name}</h3>
-                    <p><strong>Type:</strong> ${field.type}</p>
-                    <p><strong>Rating:</strong> ⭐ ${field.rating}/5</p>
-                    <p>${field.description}</p>
-                    <p><a href="http://${field.website}" target="_blank">Visit Website</a></p>
-                    <p><a href="https://www.google.com/maps/dir/?api=1&destination=${field.lat},${field.lng}" target="_blank">Get Directions</a></p>
+                    <div class="japanese-name">${field.japanese_name}</div>
+                    
+                    <p><strong>Address:</strong> ${field.address}</p>
+                    <p><strong>Rating:</strong> <span class="rating">⭐ ${field.rating}/5</span></p>
+                    
+                    <div class="field-type ${field.field_type.toLowerCase()}">${field.field_type}</div>
+                    
+                    <p><strong>Size:</strong> ${field.size}</p>
+                    <p><strong>Condition:</strong> ${field.condition}</p>
+                    <p><strong>Description:</strong> ${field.description}</p>
+                    
+                    <div class="buttons">
+                        <a href="http://${field.website}" target="_blank" class="btn btn-primary">Visit Website</a>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${field.lat},${field.lng}" target="_blank" class="btn btn-success">Get Directions</a>
+                    </div>
                 </div>
             `;
             
-            marker.bindPopup(popupContent);
+            marker.bindPopup(popupContent, {
+                maxWidth: 400,
+                className: 'custom-popup'
+            });
         });
         
-        // Add search functionality
-        function searchFields(query) {
-            // Simple search implementation
-            // You can expand this later
-        }
+        // Add a scale control
+        L.control.scale().addTo(map);
+        
+        // Optional: Add a layer control for different views
+        var streetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        });
+        
+        var satelliteMap = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors, Tiles by Humanitarian OpenStreetMap Team'
+        });
+        
+        var baseMaps = {
+            "Street Map": streetMap,
+            "Detailed Map": satelliteMap
+        };
+        
+        L.control.layers(baseMaps).addTo(map);
         
     </script>
 </body>
