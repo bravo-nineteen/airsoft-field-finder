@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airsoft Field Finder - Japan</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { 
+            margin: 0; 
+            font-family: Arial, sans-serif; 
+        }
+        .header { 
+            background: #2c3e50; 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        #map { 
+            height: 600px; 
+            width: 100%; 
+        }
+        .field-info { 
+            max-width: 300px; 
+        }
+        .field-info h3 { 
+            margin: 0 0 10px 0; 
+            color: #2c3e50; 
+        }
+        .field-info p { 
+            margin: 5px 0; 
+            font-size: 14px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Airsoft Field Finder - Japan</h1>
+        <p>Find airsoft fields near you with reviews and information</p>
+    </div>
+    
+    <div id="map"></div>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize map centered on Japan
+        var map = L.map('map').setView([35.6762, 139.6503], 7);
+        
+        // Add free OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+        
+        // Sample airsoft fields data (you can add more here)
+        var airsoftFields = [
+            {
+                name: "Tokyo Survival Game Field",
+                lat: 35.6762,
+                lng: 139.6503,
+                type: "Indoor CQB",
+                description: "Popular indoor close-quarters battle field in Tokyo",
+                website: "example.com",
+                rating: 4.5
+            },
+            {
+                name: "Chiba Outdoor Field",
+                lat: 35.6074,
+                lng: 140.1233,
+                type: "Outdoor",
+                description: "Large outdoor field with various terrain",
+                website: "example.com",
+                rating: 4.2
+            },
+            {
+                name: "Matsudo Local Field",
+                lat: 35.7848,
+                lng: 139.9493,
+                type: "Mixed",
+                description: "Local field with both indoor and outdoor areas",
+                website: "example.com",
+                rating: 4.0
+            }
+        ];
+        
+        // Add markers for each field
+        airsoftFields.forEach(function(field) {
+            // Custom marker colors based on field type
+            var markerColor = field.type === 'Indoor CQB' ? 'red' : 
+                             field.type === 'Outdoor' ? 'green' : 'blue';
+            
+            var marker = L.marker([field.lat, field.lng]).addTo(map);
+            
+            // Create popup content
+            var popupContent = `
+                <div class="field-info">
+                    <h3>${field.name}</h3>
+                    <p><strong>Type:</strong> ${field.type}</p>
+                    <p><strong>Rating:</strong> ⭐ ${field.rating}/5</p>
+                    <p>${field.description}</p>
+                    <p><a href="http://${field.website}" target="_blank">Visit Website</a></p>
+                    <p><a href="https://www.google.com/maps/dir/?api=1&destination=${field.lat},${field.lng}" target="_blank">Get Directions</a></p>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+        });
+        
+        // Add search functionality
+        function searchFields(query) {
+            // Simple search implementation
+            // You can expand this later
+        }
+        
+    </script>
+</body>
+</html>
