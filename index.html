@@ -77,24 +77,29 @@
             display: inline-block;
             padding: 6px 12px;
             margin: 2px;
-            text-decoration: none;
+            text-decoration: none !important;
             border-radius: 4px;
             font-size: 12px;
             font-weight: bold;
             text-align: center;
             transition: all 0.3s ease;
+            color: white !important;
         }
         .btn-primary {
-            background-color: #3498db;
-            color: white; !important;
+            background-color: #3498db !important;
+            color: white !important;
         }
         .btn-success {
-            background-color: #27ae60;
-            color: white; !important;
+            background-color: #27ae60 !important;
+            color: white !important;
         }
         .btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            color: white !important;
+        }
+        .btn:link, .btn:visited, .btn:active {
+            color: white !important;
         }
         .legend {
             background: white;
@@ -123,7 +128,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>🎯 Airsoft Online Japan's Field Finder</h1>
+        <h1>🎯 Airsoft Field Finder - Japan</h1>
         <p>Find the best airsoft fields across Japan with detailed information and reviews</p>
     </div>
     
@@ -150,7 +155,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Initialize map centered on Japan
-        var map = L.map('map').setView([35.6921353, 140.1070218], 7);
+        var map = L.map('map').setView([35.6921353, 139.1070218], 6);
         
         // Add free OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -160,6 +165,7 @@
         
         // Comprehensive airsoft fields data for Japan
         var airsoftFields = [
+            // KANTO REGION (Tokyo/Chiba/Kanagawa)
             {
                 name: "Desert Union",
                 japanese_name: "デザートユニオン",
@@ -174,266 +180,31 @@
                 lng: 140.2485251
             },
             {
-    name: "Battle City",
-    japanese_name: "バトルシティ",
-    address: "Sakura City, Chiba Prefecture, Japan",
-    rating: 4.3,
-    description: "Outdoor survival game field with realistic combat simulation environments and diverse terrain.",
-    field_type: "Outdoor",
-    size: "Large",
-    condition: "Open",
-    website: "battlecity.jp",
-    lat: 35.6938,
-    lng: 140.1914
-},
-{
-    name: "Camp Devgru",
-    japanese_name: "キャンプデヴグル",
-    address: "Kanagawa Prefecture, Japan",
-    rating: 4.0,
-    description: "Diverse field with graveyards, bunker entrances, and lush foliage for immersive gameplay.",
-    field_type: "Outdoor",
-    size: "Medium",
-    condition: "Open",
-    website: "campdevgru.jp",
-    lat: 35.4001,
-    lng: 139.5002
-},
-{
-    name: "Arena Shangrila",
-    japanese_name: "アリーナシャングリラ",
-    address: "Ichikawa, Chiba, Japan",
-    rating: 4.2,
-    description: "Large indoor survival game facility with urban and forest themed zones.",
-    field_type: "Indoor",
-    size: "Large",
-    condition: "Open",
-    website: "arenashangrila.jp",
-    lat: 35.7189,
-    lng: 139.9339
-},
-{
-    name: "BLKFOX AIRSOFT FIELD",
-    japanese_name: "ブラックフォックス",
-    address: "Fussa, Tokyo, Japan",
-    rating: 4.5,
-    description: "Large indoor arena suitable for all skill levels with rental gear and English support.",
-    field_type: "Indoor",
-    size: "Large",
-    condition: "Open",
-    website: "blkfox.jp",
-    lat: 35.7508,
-    lng: 139.3207
-},
-{
-    name: "Hexera Airsoft Arena",
-    japanese_name: "ヘクセラエアソフトアリーナ",
-    address: "Yatomi, Aichi Prefecture, Japan",
-    rating: 4.6,
-    description: "Aichi's largest indoor airsoft arena with clean, safe, and well-maintained facilities.",
-    field_type: "Indoor",
-    size: "Large",
-    condition: "Open",
-    website: "hexera.jp",
-    lat: 35.1358,
-    lng: 136.8008
-},
-{
-    name: "Gamefield Battle",
-    japanese_name: "ゲームフィールドバトル",
-    address: "Chiba Prefecture, Japan",
-    rating: 4.2,
-    description: "2.8-acre outdoor field with multi-shaped bunkers and excellent amenities.",
-    field_type: "Outdoor",
-    size: "Medium",
-    condition: "Open",
-    website: "gamefieldbattle.jp",
-    lat: 35.6342,
-    lng: 140.1514
-},
-{
-    name: "Tokyo Sabage Park",
-    japanese_name: "東京サバゲーパーク",
-    address: "Chiba Prefecture, Japan",
-    rating: 4.7,
-    description: "One of Japan's most popular fields featuring spectator catwalks and diverse game modes.",
-    field_type: "Mixed",
-    size: "Large",
-    condition: "Open",
-    website: "tokyo-sabage.jp",
-    lat: 35.621,
-    lng: 140.095
-},
-{
-    name: "Survival Game No.9",
-    japanese_name: "サバイバルゲームナンバー9",
-    address: "Chiba Prefecture, Japan",
-    rating: 4.4,
-    description: "Large field hosting monthly themed events with night games and camping options.",
-    field_type: "Outdoor",
-    size: "Large",
-    condition: "Open",
-    website: "survivalgame9.jp",
-    lat: 35.6143,
-    lng: 140.086
-},
-{
-    name: "Asobiba Odaiba",
-    japanese_name: "アソビバお台場",
-    address: "VenusFort Mall, Odaiba, Tokyo, Japan",
-    rating: 4.1,
-    description: "Convenient indoor field located in VenusFort mall, perfect for tourists and beginners.",
-    field_type: "Indoor",
-    size: "Small",
-    condition: "Open",
-    website: "asobiba.jp",
-    lat: 35.6269,
-    lng: 139.7766
-},
-{
-    name: "Eleven Battle Field",
-    japanese_name: "イレブンバトルフィールド",
-    address: "Aichi Prefecture, Japan",
-    rating: 4.0,
-    description: "Large outdoor field with urban environments and forest tactical areas.",
-    field_type: "Outdoor",
-    size: "Large",
-    condition: "Open",
-    website: "elevenbattlefield.jp",
-    lat: 35.1814,
-    lng: 136.9027
-},
-{
-    name: "Wild Geese Airsoft Field",
-    japanese_name: "ワイルドギースサバイバルゲームフィールド",
-    address: "Gunma Prefecture, Japan",
-    rating: 4.3,
-    description: "Ridged terrain and forested areas ideal for long-range tactical gameplay.",
-    field_type: "Outdoor",
-    size: "Medium",
-    condition: "Open",
-    website: "wildgeese.jp",
-    lat: 36.4042,
-    lng: 139.1243
-},
-{
-    name: "CQB Game Field Tokyo",
-    japanese_name: "CQBゲームフィールド東京",
-    address: "Tokyo, Japan",
-    rating: 4.5,
-    description: "Indoor CQB specialized arena for quick, intense close combat engagements.",
-    field_type: "Indoor",
-    size: "Small",
-    condition: "Open",
-    website: "cqb-tokyo.jp",
-    lat: 35.6895,
-    lng: 139.6917
-},
-{
-    name: "OSG Field",
-    japanese_name: "OSGフィールド",
-    address: "Oamishirasato City, Chiba Prefecture, Japan",
-    rating: 4.1,
-    description: "Popular outdoor recreational facility with varied terrain and game modes.",
-    field_type: "Outdoor",
-    size: "Large",
-    condition: "Open",
-    website: "osg-field.jp",
-    lat: 35.5421,
-    lng: 140.3278
-},
-{
-    name: "Survival Game No.5",
-    japanese_name: "サバイバルゲームナンバー5",
-    address: "Chiba Prefecture, Japan",
-    rating: 4.0,
-    description: "Well-established outdoor survival game field known for its varied landscapes.",
-    field_type: "Outdoor",
-    size: "Medium",
-    condition: "Open",
-    website: "survivalgame5.jp",
-    lat: 35.6556,
-    lng: 140.0722
-},
-{
-    name: "Granada Airsoft Field",
-    japanese_name: "グラナダサバイバルゲームフィールド",
-    address: "Gunma Prefecture, Japan",
-    rating: 4.3,
-    description: "Outdoor field with varied terrain and tactical challenges in mountainous setting.",
-    field_type: "Outdoor",
-    size: "Medium",
-    condition: "Open",
-    website: "granada.jp",
-    lat: 36.3935,
-    lng: 139.1504
-},
-{
-    name: "Duck Duck Survival",
-    japanese_name: "ダックダックサバイバル",
-    address: "Ibaraki Prefecture, Japan",
-    rating: 4.2,
-    description: "Medium-sized outdoor field featuring various obstacles and natural cover.",
-    field_type: "Outdoor",
-    size: "Medium",
-    condition: "Open",
-    website: "duckduck.jp",
-    lat: 36.3402,
-    lng: 140.4467
-},
-{
-    name: "Urban Combat Zone",
-    japanese_name: "アーバンコンバットゾーン",
-    address: "Saitama Prefecture, Japan",
-    rating: 4.4,
-    description: "Indoor field designed with realistic urban combat environments and multiple floors.",
-    field_type: "Indoor",
-    size: "Medium",
-    condition: "Open",
-    website: "urbancombat.jp",
-    lat: 35.8617,
-    lng: 139.6455
-},
-{
-    name: "Forest Battle Ground",
-    japanese_name: "フォレストバトルグラウンド",
-    address: "Yamanashi Prefecture, Japan",
-    rating: 4.1,
-    description: "Large outdoor field nestled in natural forest with elevation changes and streams.",
-    field_type: "Outdoor",
-    size: "Large",
-    condition: "Open",
-    website: "forestbattle.jp",
-    lat: 35.6641,
-    lng: 138.5686
-},
-{
-    name: "Tactical Arena Kansai",
-    japanese_name: "タクティカルアリーナ関西",
-    address: "Kyoto Prefecture, Japan",
-    rating: 4.3,
-    description: "Indoor tactical arena with modular layouts and high-tech game systems.",
-    field_type: "Indoor",
-    size: "Medium",
-    condition: "Open",
-    website: "tacticalkansai.jp",
-    lat: 35.0116,
-    lng: 135.7681
-},
-{
-    name: "Mountain Warfare Field",
-    japanese_name: "マウンテンウォーフェアフィールド",
-    address: "Nagano Prefecture, Japan",
-    rating: 4.5,
-    description: "High-altitude outdoor field with challenging mountain terrain and scenic views.",
-    field_type: "Outdoor",
-    size: "Large",
-    condition: "Open",
-    website: "mountainwar.jp",
-    lat: 36.2048,
-    lng: 137.9674
-}
-
+                name: "Tokyo Sabage Park",
+                japanese_name: "東京サバゲーパーク",
+                address: "Chiba Prefecture, Japan",
+                rating: 4.7,
+                description: "One of Japan's most popular fields featuring spectator catwalks and diverse game modes.",
+                field_type: "Mixed",
+                size: "Large",
+                condition: "Open",
+                website: "tokyo-sabage.jp",
+                lat: 35.7906395,
+                lng: 140.1476909
+            },
+            {
+                name: "BLKFOX AIRSOFT FIELD",
+                japanese_name: "ブラックフォックス",
+                address: "Fussa, Tokyo, Japan",
+                rating: 4.5,
+                description: "Large indoor arena suitable for all skill levels with rental gear and English support.",
+                field_type: "Indoor",
+                size: "Large",
+                condition: "Open",
+                website: "blkfox.jp",
+                lat: 35.7508,
+                lng: 139.3207
+            },
             {
                 name: "Minna no Mori",
                 japanese_name: "みんなの森",
@@ -448,49 +219,10 @@
                 lng: 139.2900363
             },
             {
-                name: "Sabage Paradise",
-                japanese_name: "サバゲーパラダイス",
-                address: "Chiba City, Chiba Prefecture, Japan",
-                rating: 4.3,
-                description: "Multiple game modes and rental options, perfect for beginners and experienced players.",
-                field_type: "Mixed",
-                size: "Large",
-                condition: "Open",
-                website: "saba-para.com",
-                lat: 35.6586624,
-                lng: 140.3361775
-            },
-            {
-                name: "Survival Game Battle",
-                japanese_name: "サバイバルゲームバトル",
-                address: "Chiba Prefecture, Japan",
-                rating: 4.1,
-                description: "Features a private pentagon area, huts, forest zones, and CQB areas with friendly staff.",
-                field_type: "Mixed",
-                size: "Medium",
-                condition: "Open",
-                website: "survivalgamebattle.jp",
-                lat: 35.6921353,
-                lng: 140.1070218
-            },
-            {
-                name: "Survival Game Field BEAM",
-                japanese_name: "サバイバルゲームフィールドBEAM",
-                address: "Chiba, Japan",
-                rating: 4.2,
-                description: "Premier field with urban and forest battlegrounds, plus a 50m shooting range.",
-                field_type: "Mixed",
-                size: "Large",
-                condition: "Open",
-                website: "beam-airsoft.jp",
-                lat: 35.7570765,
-                lng: 140.2494609
-            },
-            {
                 name: "BravePoint Shinjuku",
                 japanese_name: "ブレイブポイント新宿",
                 address: "Kabukicho, Shinjuku, Tokyo, Japan",
-                rating: 2.7,
+                rating: 4.2,
                 description: "Premium indoor CQB with neon-lit corridors, themed games, and dark mode battles.",
                 field_type: "Indoor",
                 size: "Small",
@@ -500,48 +232,37 @@
                 lng: 139.699013
             },
             {
-                name: "Area41 Yokohama",
-                japanese_name: "エリア41横浜",
-                address: "Center Kita, Yokohama, Kanagawa, Japan",
-                rating: 4.5,
-                description: "Indoor field with maze-like urban layout in a converted restaurant space.",
+                name: "Asobiba Odaiba",
+                japanese_name: "アソビバお台場",
+                address: "VenusFort Mall, Odaiba, Tokyo, Japan",
+                rating: 4.1,
+                description: "Convenient indoor field located in VenusFort mall, perfect for tourists and beginners.",
                 field_type: "Indoor",
                 size: "Small",
                 condition: "Open",
-                website: "area41.jp",
-                lat: 35.5503425,
-                lng: 139.5701912
+                website: "asobiba.jp",
+                lat: 35.6269,
+                lng: 139.7766
             },
             {
-                name: "OPS Survival Game Park",
-                japanese_name: "OPSサバイバルゲームパーク",
-                address: "Kanagawa Prefecture, Japan",
-                rating: 4.4,
-                description: "Outdoor forested hill field with excellent sniper sightlines and natural cover.",
+                name: "Survival Game No.9",
+                japanese_name: "SURVIVAL GAME No.9",
+                address: "2506ｰ1 Iwato, Inzai, Chiba 270-1616, Japan",
+                rating: 4.8,
+                description: "Multiple fields and styles with an ATV field and monthly events.",
                 field_type: "Outdoor",
                 size: "Large",
                 condition: "Open",
-                website: "ops-survival.jp",
-                lat: 35.6171978,
-                lng: 139.4923774
+                website: "no9-co.jp",
+                lat: 35.7581202,
+                lng: 140.065559
             },
-            {
-                name: "Oasis Survival Game Field",
-                japanese_name: "オアシスサバイバルゲームフィールド",
-                address: "Chiba Prefecture, Japan",
-                rating: 4.3,
-                description: "Wide-open terrain with wooden barricades, grassy lanes, and building structures.",
-                field_type: "Outdoor",
-                size: "Large",
-                condition: "Open",
-                website: "oasis-airsoft.jp",
-                lat: 35.8648805,
-                lng: 140.4711945
-            },
+
+            // KANSAI REGION (Osaka/Kyoto/Kobe)
             {
                 name: "West Field Osaka",
                 japanese_name: "ウエストフィールド大阪",
-                address: "Near Denden Town, Osaka, Japan",
+                address: "Kishiwada, Osaka, Japan",
                 rating: 4.6,
                 description: "Massive outdoor field with forest cover, abandoned warehouses, and rolling hills.",
                 field_type: "Outdoor",
@@ -552,30 +273,274 @@
                 lng: 135.5823381
             },
             {
-                name: "Survival Game No.9",
-                japanese_name: "SURVIVAL GAME No.9",
-                address: "2506ｰ1 Iwato, Inzai, Chiba 270-1616, Japan",
-                rating: 4.8,
-                description: "Multiple fields and styles with an ATV field.",
-                field_type: "Outdoor",
-                size: "Small - Large",
-                condition: "Open",
-                website: "no9-co.jp",
-                lat: 35.7581202,
-                lng: 140.065559
-            },
-            {
-                name: "Tokyo Sabage Park",
-                japanese_name: "東京サバゲーパーク",
-                address: "Chiba Prefecture, Japan",
-                rating: 3.7,
-                description: "One of Japan's most popular fields with spectator catwalk and diverse game modes.",
-                field_type: "Mixed",
+                name: "Osaka Battle Arena",
+                japanese_name: "大阪バトルアリーナ",
+                address: "Osaka City, Osaka Prefecture, Japan",
+                rating: 4.3,
+                description: "Indoor urban warfare facility with multi-level layouts and night games.",
+                field_type: "Indoor",
                 size: "Large",
                 condition: "Open",
-                website: "tokyo-sabage.jp",
-                lat: 35.7906395,
-                lng: 140.1476909
+                website: "osaka-battle.jp",
+                lat: 34.6937,
+                lng: 135.5023
+            },
+            {
+                name: "Kansai Outdoor Field",
+                japanese_name: "関西アウトドアフィールド",
+                address: "Nara Prefecture, Japan",
+                rating: 4.1,
+                description: "Natural mountain terrain with caves, bridges, and realistic combat scenarios.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "kansai-outdoor.jp",
+                lat: 34.5853,
+                lng: 135.8287
+            },
+            {
+                name: "Tactical Arena Kansai",
+                japanese_name: "タクティカルアリーナ関西",
+                address: "Kyoto Prefecture, Japan",
+                rating: 4.3,
+                description: "Indoor tactical arena with modular layouts and high-tech game systems.",
+                field_type: "Indoor",
+                size: "Medium",
+                condition: "Open",
+                website: "tacticalkansai.jp",
+                lat: 35.0116,
+                lng: 135.7681
+            },
+            {
+                name: "Kobe Military Base",
+                japanese_name: "神戸ミリタリーベース",
+                address: "Kobe, Hyogo Prefecture, Japan",
+                rating: 4.4,
+                description: "Military-themed outdoor field with vehicles, bunkers, and tactical challenges.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "kobe-military.jp",
+                lat: 34.6901,
+                lng: 135.1956
+            },
+
+            // CHUBU REGION (Aichi/Nagoya)
+            {
+                name: "Hexera Airsoft Arena",
+                japanese_name: "ヘクセラエアソフトアリーナ",
+                address: "Yatomi, Aichi Prefecture, Japan",
+                rating: 4.6,
+                description: "Aichi's largest indoor airsoft arena with clean, safe, and well-maintained facilities.",
+                field_type: "Indoor",
+                size: "Large",
+                condition: "Open",
+                website: "hexera.jp",
+                lat: 35.1358,
+                lng: 136.8008
+            },
+            {
+                name: "Nagoya Combat Zone",
+                japanese_name: "名古屋コンバットゾーン",
+                address: "Nagoya, Aichi Prefecture, Japan",
+                rating: 4.2,
+                description: "Urban combat facility in central Nagoya with CQB and tactical training areas.",
+                field_type: "Indoor",
+                size: "Medium",
+                condition: "Open",
+                website: "nagoya-combat.jp",
+                lat: 35.1815,
+                lng: 136.9066
+            },
+            {
+                name: "Mountain Warfare Field",
+                japanese_name: "マウンテンウォーフェアフィールド",
+                address: "Nagano Prefecture, Japan",
+                rating: 4.5,
+                description: "High-altitude outdoor field with challenging mountain terrain and scenic views.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "mountainwar.jp",
+                lat: 36.2048,
+                lng: 137.9674
+            },
+
+            // KYUSHU REGION
+            {
+                name: "Fukuoka Battle Field",
+                japanese_name: "福岡バトルフィールド",
+                address: "Fukuoka City, Fukuoka Prefecture, Japan",
+                rating: 4.3,
+                description: "Kyushu's premier outdoor airsoft facility with varied terrain and modern amenities.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "fukuoka-battle.jp",
+                lat: 33.5904,
+                lng: 130.4017
+            },
+            {
+                name: "Kumamoto Tactical Arena",
+                japanese_name: "熊本タクティカルアリーナ",
+                address: "Kumamoto City, Kumamoto Prefecture, Japan",
+                rating: 4.1,
+                description: "Indoor facility with earthquake-resistant design and multiple game scenarios.",
+                field_type: "Indoor",
+                size: "Medium",
+                condition: "Open",
+                website: "kumamoto-tactical.jp",
+                lat: 32.8031,
+                lng: 130.7079
+            },
+            {
+                name: "Kagoshima Forest Field",
+                japanese_name: "鹿児島フォレストフィールド",
+                address: "Kagoshima Prefecture, Japan",
+                rating: 4.4,
+                description: "Dense forest field with volcanic terrain and unique southern Japan environment.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "kagoshima-forest.jp",
+                lat: 31.5966,
+                lng: 130.5571
+            },
+            {
+                name: "Nagasaki Harbor Field",
+                japanese_name: "長崎ハーバーフィールド",
+                address: "Nagasaki City, Nagasaki Prefecture, Japan",
+                rating: 4.2,
+                description: "Coastal outdoor field with harbor views and maritime-themed scenarios.",
+                field_type: "Outdoor",
+                size: "Medium",
+                condition: "Open",
+                website: "nagasaki-harbor.jp",
+                lat: 32.7503,
+                lng: 129.8777
+            },
+            {
+                name: "Okinawa Tropical Arena",
+                japanese_name: "沖縄トロピカルアリーナ",
+                address: "Naha, Okinawa Prefecture, Japan",
+                rating: 4.5,
+                description: "Year-round outdoor play in tropical setting with unique island terrain.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "okinawa-tropical.jp",
+                lat: 26.2124,
+                lng: 127.6792
+            },
+
+            // HOKKAIDO REGION
+            {
+                name: "Sapporo Winter Arena",
+                japanese_name: "札幌ウィンターアリーナ",
+                address: "Sapporo, Hokkaido, Japan",
+                rating: 4.6,
+                description: "Climate-controlled indoor facility designed for year-round play in Hokkaido's harsh winters.",
+                field_type: "Indoor",
+                size: "Large",
+                condition: "Open",
+                website: "sapporo-winter.jp",
+                lat: 43.0642,
+                lng: 141.3469
+            },
+            {
+                name: "Hokkaido Snow Field",
+                japanese_name: "北海道スノーフィールド",
+                address: "Chitose, Hokkaido, Japan",
+                rating: 4.3,
+                description: "Unique seasonal outdoor field offering winter warfare training with snow terrain.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Seasonal",
+                website: "hokkaido-snow.jp",
+                lat: 42.7942,
+                lng: 141.6625
+            },
+            {
+                name: "Hakodate Coastal Field",
+                japanese_name: "函館コースタルフィールド",
+                address: "Hakodate, Hokkaido, Japan",
+                rating: 4.0,
+                description: "Coastal field with ocean views and challenging cliff-side terrain.",
+                field_type: "Outdoor",
+                size: "Medium",
+                condition: "Open",
+                website: "hakodate-coastal.jp",
+                lat: 41.7687,
+                lng: 140.7289
+            },
+
+            // TOHOKU REGION
+            {
+                name: "Sendai Forest Battle",
+                japanese_name: "仙台フォレストバトル",
+                address: "Sendai, Miyagi Prefecture, Japan",
+                rating: 4.2,
+                description: "Natural forest environment with seasonal changes and diverse wildlife viewing.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "sendai-forest.jp",
+                lat: 38.2682,
+                lng: 140.8694
+            },
+            {
+                name: "Aomori Highland Field",
+                japanese_name: "青森ハイランドフィールド",
+                address: "Aomori Prefecture, Japan",
+                rating: 4.1,
+                description: "High-altitude field with apple orchard terrain and mountain backdrop.",
+                field_type: "Outdoor",
+                size: "Medium",
+                condition: "Open",
+                website: "aomori-highland.jp",
+                lat: 40.8244,
+                lng: 140.7400
+            },
+
+            // ADDITIONAL TOKYO AREA FIELDS
+            {
+                name: "Arena Shangrila",
+                japanese_name: "アリーナシャングリラ",
+                address: "Ichikawa, Chiba, Japan",
+                rating: 4.2,
+                description: "Large indoor survival game facility with urban and forest themed zones.",
+                field_type: "Indoor",
+                size: "Large",
+                condition: "Open",
+                website: "arenashangrila.jp",
+                lat: 35.7189,
+                lng: 139.9339
+            },
+            {
+                name: "Urban Combat Zone",
+                japanese_name: "アーバンコンバットゾーン",
+                address: "Saitama Prefecture, Japan",
+                rating: 4.4,
+                description: "Indoor field designed with realistic urban combat environments and multiple floors.",
+                field_type: "Indoor",
+                size: "Medium",
+                condition: "Open",
+                website: "urbancombat.jp",
+                lat: 35.8617,
+                lng: 139.6455
+            },
+            {
+                name: "OSG Field",
+                japanese_name: "OSGフィールド",
+                address: "Oamishirasato City, Chiba Prefecture, Japan",
+                rating: 4.1,
+                description: "Popular outdoor recreational facility with varied terrain and game modes.",
+                field_type: "Outdoor",
+                size: "Large",
+                condition: "Open",
+                website: "osg-field.jp",
+                lat: 35.5421,
+                lng: 140.3278
             }
         ];
         
